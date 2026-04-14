@@ -1,39 +1,26 @@
 import express from 'express';
-import { createClient } from '@supabase/supabase-js'; // Asegúrate de tener esta librería
+import { createClient } from '@supabase/supabase-js';
 
 const app = express();
 const port = process.env.PORT || 10000;
 
-// Configuración de Supabase
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_ANON_KEY
-);
+// Configuración con las 4 Variables de Élite
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_ANON_KEY;
+const dbPassword = process.env.DB_PASSWORD; // Tu 3ra variable
+const otherSecret = process.env.OTHER_SECRET; // Tu 4ta variable
 
-// Lógica de carga de datos
-async function cargarDirectorioElite() {
-  console.log("🚀 Extrayendo activos de alta red para Peces Gordos...");
-  const { data, error } = await supabase.from('negocios').select('*');
-  
-  if (error) {
-    console.error("❌ Error en la extracción:", error.message);
-  } else {
-    console.log(`🔥 ${data.length} negocios cargados con éxito.`);
-  }
+// Validación de seguridad para que no se caiga
+if (!supabaseUrl || !supabaseKey) {
+    console.error("❌ Faltan llaves maestras en Environment.");
 }
 
-cargarDirectorioElite();
+const supabase = createClient(supabaseUrl, supabaseKey);
 
-// El link ahora mostrará estado real
 app.get('/', (req, res) => {
-  res.json({
-    status: "OPERATIVO",
-    entorno: "Elite Ciudad Obregón",
-    precision: "100%",
-    mensaje: "Sistema de Inteligencia de Patrimonio Activo"
-  });
+    res.send('<h1>DIRECTORIO ELITE: SISTEMA INTEGRADO ✅</h1>');
 });
 
 app.listen(port, '0.0.0.0', () => {
-  console.log(`✅ Servidor de Élite escuchando en puerto ${port}`);
+    console.log(`🚀 Motor encendido en puerto ${port} con 4 variables de control.`);
 });
